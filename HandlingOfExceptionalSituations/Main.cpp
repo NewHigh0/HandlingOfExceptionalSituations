@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include "List.h"
 #include "Array.h"
+#include "String.h"
 
 int main() {
     /*List<int> myList;
@@ -37,7 +38,7 @@ int main() {
         std::cout << "Caught standard exception: " << e.what() << std::endl;
     }*/
 
-    try {
+    /*try {
         Array arr1(5);
         std::cout << "Empty array: ";
         arr1.display();
@@ -89,6 +90,63 @@ int main() {
     }
     catch (const std::exception& e) {
         std::cout << "Caught unexpected exception: " << e.what() << std::endl;
+    }*/
+
+    try {
+        String defaultString;
+        try {
+            defaultString.input();
+            defaultString.output();
+        }
+        catch (const String::StringInvalidInputException& e) {
+            std::cout << "Input error: " << e.what() << std::endl;
+        }
+
+        String customString(static_cast<size_t>(50));
+        try {
+            customString.input();
+            customString.output();
+        }
+        catch (const String::StringInvalidInputException& e) {
+            std::cout << "Input error: " << e.what() << std::endl;
+        }
+
+        String initializedString("Hello, World!");
+        initializedString.output();
+        std::cout << "Length: " << initializedString.length() << std::endl;
+
+        String copiedString(initializedString);
+        copiedString.output();
+
+        std::cout << "\nTesting exceptions:" << std::endl;
+
+        try {
+            String invalidSize(static_cast<size_t>(0));
+        }
+        catch (const String::StringInvalidInputException& e) {
+            std::cout << "Invalid size exception: " << e.what() << std::endl;
+        }
+
+        try {
+            String emptyString("");
+        }
+        catch (const String::StringInvalidInputException& e) {
+            std::cout << "Empty string exception: " << e.what() << std::endl;
+        }
+
+        try {
+            String nullString(nullptr);
+        }
+        catch (const String::StringInvalidInputException& e) {
+            std::cout << "Null string exception: " << e.what() << std::endl;
+        }
     }
+    catch (const String::StringMemoryException& e) {
+        std::cout << "Memory allocation error: " << e.what() << std::endl;
+    }
+    catch (const std::exception& e) {
+        std::cout << "Unexpected error: " << e.what() << std::endl;
+    }
+
     return 0;
 }
