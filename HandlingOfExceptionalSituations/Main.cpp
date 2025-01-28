@@ -1,8 +1,9 @@
 ﻿#include <iostream>
 #include "List.h"
+#include "Array.h"
 
 int main() {
-    List<int> myList;
+    /*List<int> myList;
 
     try {
         myList.push_back(10);
@@ -34,7 +35,60 @@ int main() {
     }
     catch (const std::exception& e) {
         std::cout << "Caught standard exception: " << e.what() << std::endl;
-    }
+    }*/
 
+    try {
+        Array arr1(5);
+        std::cout << "Empty array: ";
+        arr1.display();
+
+        Array arr2(10, 2, 100);
+        std::cout << "Random array: ";
+        arr2.display();
+
+        Array arr3(7, 42);
+        std::cout << "Array with value 42: ";
+        arr3.display();
+
+        arr2.sort();
+        std::cout << "Sorted array: ";
+        arr2.display();
+        std::cout << "Min: " << arr2.getMin() << std::endl;
+        std::cout << "Max: " << arr2.getMax() << std::endl;
+
+        arr2.resize(15);
+        std::cout << "Resized array: ";
+        arr2.display();
+
+        std::cout << "\nTesting exceptions:" << std::endl;
+
+        try {
+            Array invalidSize(0);
+        }
+        catch (const Array::ArrayInvalidArgumentException& e) {
+            std::cout << "Caught invalid size exception: " << e.what() << std::endl;
+        }
+
+        try {
+            Array invalidRange(5, 100, 1);
+        }
+        catch (const Array::ArrayInvalidArgumentException& e) {
+            std::cout << "Caught invalid range exception: " << e.what() << std::endl;
+        }
+
+        try {
+            Array emptyArr;
+            emptyArr.getMin();
+        }
+        catch (const Array::ArrayEmptyException& e) {
+            std::cout << "Caught empty array exception: " << e.what() << std::endl;
+        }
+    }
+    catch (const Array::ArrayMemoryException& e) {
+        std::cout << "Caught memory allocation exception: " << e.what() << std::endl;
+    }
+    catch (const std::exception& e) {
+        std::cout << "Caught unexpected exception: " << e.what() << std::endl;
+    }
     return 0;
 }
